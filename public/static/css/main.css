@@ -1,0 +1,155 @@
+body {
+	/*background: url(../img/mapBG.png) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;*/
+	background: url(../img/test.png);
+}
+
+* {
+	-webkit-touch-callout: none;
+}
+
+.form-inline {
+	width: 90% !important;
+}
+
+.color-blue {
+	color: #418BD0;
+}
+
+.critical {
+	-webkit-box-shadow: 0 0 3px 1px rgba(255,0,0,.8);
+	box-shadow: 0 0 3px 1px rgba(255,0,0,.8);
+}
+
+.color-green {
+	-webkit-box-shadow: 0 0 5px 3px rgba(0,190,0,1);
+	box-shadow: 0 0 5px 3px rgba(0,190,0,1);
+}
+
+.inactive {
+	opacity : 0.3; 
+}
+
+#optionWindowMain {
+	position: fixed;
+	display: table;
+	width: 100%;
+	top:0;
+	height: 100%;
+	background-color: rgba(61,61,61,0.9);
+	z-index: 4;
+}
+
+#optionMapWindowMain {
+	position: fixed;
+	display: table;
+	top:0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(61,61,61,0.9);
+	z-index: 4;
+}
+
+#optionPowerWindowMain{
+	position:absolute;
+	display:table;
+	top:0;
+	left:0;
+	width: 100%;
+	height:100%;
+	background-color: rgba(61,61,61,0.9);
+	z-index: 8;
+}
+
+#optionContentWindowMain {
+	position:absolute;
+	display:table;
+	top:0;
+	left:0;
+	width: 100%;
+	height:100%;
+	background-color: rgba(61,61,61,0.9);
+	z-index: 8;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+/* button styles */
+
+.hover-cursor {
+	cursor: pointer;
+}
+
+.hover-cursor:hover {
+	-webkit-box-shadow: 0 0 7px 2px rgba(65,139,208,1);
+	box-shadow: 0 0 7px 2px rgba(65,139,208,1);
+}
+
+/* list styles */
+
+h3 {
+	text-align: center;
+	color: #F3F3F3;
+}
+
+.h3-bottomMargin {
+	padding-bottom: 20px;
+}
+
+ul, li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+li {
+	margin: 0;
+	padding-left: 20px;
+	padding-bottom: 6px;
+	font-size: 16pt;
+}
+
+ul:first-child {
+	padding-top: 6px;
+}
+
+li:hover {
+	cursor: pointer;
+}
+
+.copyright {
+	margin: 0 auto;
+	color: #B3B3B3;
+	font-size: 9pt;
+}
+
+.center-text {
+	text-align: center;
+}
+
+.center-margin {
+	display:table;
+	margin:0 auto;
+}
+
+.hide {
+	display: none;
+}
+
+.displayTable {
+	display: table;
+}
+
+.displayBlock {
+	display: block;
+}
+
+.center-div-horizontal {
+	width: 100% !important;
+	text-align:center !important;
+}

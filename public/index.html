@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<title>PacTrack</title>
+
+		<link rel="stylesheet" type="text/css" href="static/css/master.css" />
+		
+		<!-- IPhone 2G - 4S -->
+		<link rel="stylesheet" type="text/css" href="static/css/portrait_mobile.css" media="screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : portrait)"/>
+		<link rel="stylesheet" type="text/css" href="static/css/landscape_mobile.css" media="screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : landscape)"/>
+		
+		<!-- IPhone 5 -->
+		<link rel="stylesheet" type="text/css" href="static/css/portrait_mobile.css" media="screen and (min-device-width : 320px) and (max-device-width : 568px) and (orientation : portrait)"/>
+		<link rel="stylesheet" type="text/css" href="static/css/landscape_mobile.css" media="screen and (min-device-width : 320px) and (max-device-width : 568px) and (orientation : landscape)"/>
+		
+		<!-- IPad -->
+		<link rel="stylesheet" type="text/css" href="static/css/portrait_ipad.css" media="screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 1)"/>
+		<link rel="stylesheet" type="text/css" href="static/css/landscape_ipad.css" media="screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 1)"/>
+		
+		<!-- IPad 3/4-->
+		<link rel="stylesheet" type="text/css" href="static/css/portrait_ipad.css" media="screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: 2)"/>
+		<link rel="stylesheet" type="text/css" href="static/css/landscape_ipad.css" media="screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio: 2)"/>
+		
+		<link rel="stylesheet" type="text/css" href="static/css/landscape_ipad.css" media="screen and (min-device-width : 1024px)"/>
+		
+		<script type="text/javascript" src="static/js/progressbar.min.js"></script>
+		<script type="text/javascript" src="static/js/date.js"></script>
+		<script type="text/javascript" src="static/js/helper.js"></script>
+		<script type="text/javascript" src="static/js/dispatcher.js"></script>
+		<script type="text/javascript" src="static/js/handlebars-v1.1.2.js"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+		<script type="text/javascript" src="static/js/modernizr.js"></script>
+		<script type="text/javascript" src="static/js/login.js"></script>
+		<script type="text/javascript" src="static/js/preGame.js"></script>
+		<script type="text/javascript" src="static/js/map.js"></script>
+		<script type="text/javascript" src="static/js/lobby.js"></script>
+		<script type="text/javascript" src="static/js/gameSettings.js"></script>
+		<script type="text/javascript" src="static/js/characterSelect.js"></script>
+		<script type="text/javascript" src="static/js/gameSelect.js"></script>
+		<script type="text/javascript" src="static/js/progress.js"></script>
+		<script type="text/javascript" src="static/js/powerFunctions.js"></script>
+		
+		<script src="http://m1.mi.hs-rm.de/socket.io/socket.io.js"></script>
+		<script id="liMenuTMP"  type="text/x-handlebars-template">
+				<a href="#" id="{{menuID}}" class="font-size-menu">{{menuText}}</a>
+		</script>
+		<script id="gameSelectTMP" type="text/x-handlebars-template">
+			<div id="{{wrapperID}}">
+				<h3 class="h3-bottomMargin font-size-menu"><img src="static/img/pin.png" width="20" height="20"  alt="select-game-image"/>&nbsp;&nbsp;&nbsp;Spielauswahl</h3>
+				<ul>
+					{{#each items}}
+						<li class="hover-cursor gameSelector">
+							<div class="first">
+								<span class="spanTableCell font-size">Distanz: <em class="color-blue">{{distance}}</em> km</span>
+							</div>
+							<div class="last">
+								<span class="spanBlock font-size">Spielname: <em class="color-blue">{{gameName}}</em></span>
+								<span class="spanBlock font-size">Host: <em class="color-blue">{{host}}</em></span>
+								<span class="spanBlock font-size">Verbleibende Zeit: <em class="color-blue">{{timeLeft}}</em> min</span>
+							</div>
+						</li>
+					{{/each}}
+				</ul>
+			</div>
+		</script>
+		<script id="highscoreTMP" type="text/x-handlebars-template">
+			<h3 class="font-size-menu">Bestenliste</h3>
+			</br>
+			<table class="table">
+				<tr>
+					<th><span class="font-size color-blue">User</span></th>
+					<th><span class="font-size color-blue">Highscore</span></th>
+				</tr>
+				{{#each items}}
+					<tr>
+						<td><span class="font-size color-blue">{{username}}</span></td>
+						<td><span class="font-size color-blue">{{highscore}}</span></td>
+					</tr>
+				{{/each}}
+			</table>
+		</script>
+		<script id="gameEndTMP" type="text/x-handlebars-template">
+			<h3 class="font-size-menu">{{state}}</h3>
+			</br>
+			<div class="center-div-horizontal font-size-menu color-blue">{{gameEndInfo}}</div>
+			</br>
+			<table class="table">
+					<tr>
+						<td><span class="font-size">Erreichter Highscore</span></td>
+						<td><span class="font-size color-blue">{{highscore}}</span></td>
+					</tr>
+					<tr>
+						<td><span class="font-size">Gelaufene Meter</span></td>
+						<td><span class="font-size color-blue">{{amountDistance}}</span></td>
+					</tr>
+			</table>
+			<div class="center-div-horizontal">
+					<button id="gameEndButton" type="button" class="btn btn-primary"><span class="font-size">zur Lobby</span></button>
+			</div>
+		</script>
+		<script id="characterSelectTMP" type="text/x-handlebars-template">
+			<div id="{{wrapperID}}">
+				<ul>
+					{{#each items}}
+						<li><img class="character hover-cursor character-size" src="{{imagePath}}" alt="character image"/></li>
+					{{/each}}
+				</ul>
+			</div>
+		</script>
+		
+		<script id="powerContentTMP" type="text/x-handlebars-template">
+			<h3 class="h3-bottomMargin font-size-menu">Spezialkräfte</h3>
+			<ul>
+				<li class="lefti"><img id="{{invisibleButton}}" class="inactive" src="static/img/invisiblePower.png" alt="invisble power!" /></li>
+				<li class="righti"><p>Wendest du diese Spezialkraft an
+									  so bist du für deine Gegner für
+									  40 Sekunden unsichtbar!</p></li>
+				<li class="lefti"><img id="{{defenseButton}}" class="inactive"  src="static/img/defendPower.png" alt="defense power!" /> </li>
+				<li class="righti"><p>Befinden sich Gegner in deiner Nähe,
+									  können sie dir nichts anhaben.
+									  Sie also zu, dass du da weg kommst!</p></li>
+				<li class="lefti"><img id="{{baboButton}}" class="inactive"  src="static/img/starPower.png" alt="star power!" /> </li>
+				<li class="righti"><p>Diese besondere Kraft macht dich immun
+									  gegen Geister und noch viel besser,
+									  du ziehst Ihnen Punkte ab!
+									  Dieser Effekt dauert 20 Sekunden an.</p></li>
+			</ul>
+		</script>
+		
+		<script id="gameSettingsTMP" type="text/x-handlebars-template">
+				<div id="{{wrapperID}}">
+					<h3 class="h3-bottomMargin font-size-menu"><img src="static/img/settingIcon.png" width="20" height="20" alt="select-game-image"/>&nbsp;&nbsp;&nbsp;Spieleinstellungen</h3>
+					<form class="form-horizontal" role="form">
+					<div class="form-group">
+					    <label class="col-md-5 control-label font-size">Spielname</label>
+					    <div class="col-md-7">
+					      <input class="form-control input-size" type="text" name="{{gameName}}" />
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-md-5 control-label font-size">Spielfeld-Radius</label>
+					    <div class="col-md-7">
+					      <select name="{{radius}}" class="form-control input-size">
+					      	<option>250 m</option>
+					      	<option>500 m</option>
+					      	<option>750 m</option>
+					      	<option>1000 m</option>
+					      	<option>1500 m</option>
+					      </select>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-md-5 control-label font-size">Spielelänge</label>
+					    <div class="col-md-7">
+					     <select name="{{gameTime}}" class="form-control input-size">
+					      	<option>1 min</option>
+					      	<option>2 min</option>
+					      	<option>3 min</option>
+					      	<option>45 min</option>
+					      	<option>60 min</option>
+					      </select>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label class="col-md-5 control-label font-size">Anzahl Spieler</label>
+					    <div class="col-md-7">
+					      <select name="amountPlayers" class="form-control input-size">
+					      	<option>6</option>
+					      	<option>7</option>
+					      	<option>8</option>
+					      	<option>9</option>
+					      	<option>10</option>
+					      </select>
+					    </div>
+					  </div>
+					</form>
+					<div id="gameNameErrorMessage" class="hide font-size">
+						</div>
+					  <div class="form-group-centered">
+					      <button id="{{startGameID}}" type="submit" class="btn btn-primary"><span class="font-size">Spiel starten</span></button>
+					  </div>
+				</div>
+		</script>
+		<script id="optionWindowTMP" type="text/x-handlebars-template">
+			<div id="{{confirmID}}">
+				<span class="font-size">{{text}}</span>	<br/>
+				<div class="center-margin">
+					<button id="{{yesButton}}" type="submit" class="btn btn-primary">Ja</button>
+					<button id="{{noButton}}" type="submit" class="btn btn-primary">Nein</button>
+				</div>
+			</div>
+		</script>
+		<script id="lobbyTMP" type="text/x-handlebars-template">
+			<div id="{{wrapperID}}">
+				<div id="{{newGameID}}" class="lobbyButton newGame">
+					<img src="static/img/newGame250.png" class="hover-cursor image-size" alt="newGame" />
+					<span>Neues Spiel</span>
+				</div>
+				
+				<div id="{{joinGameID}}" class="lobbyButton joinGame">
+					<img src="static/img/joinGame250.png" class="hover-cursor image-size" alt="joinGame" />
+					<span>Spiel beitreten</span>
+				</div>
+			</div>
+		</script>
+		<script id="gameMapTMP" type="text/x-handlebars-template">
+			<div id="{{mapID}}">
+			</div>
+			<div id="openMenuButton">
+				<button type="button" class="btn btn-primary"><img src="static/img/littleButton.png" alt="menuButton" /></button>
+			</div>
+			<div id="highscoreDisplay">
+				<div>0</div>
+				<div id="progressbar"></div>
+			</div>
+			<div id="timerDisplay">
+			</div>
+			<div id="gameMenu">
+				<ul>
+					<li id="energyButton">
+						<img src="static/img/energy.png" width="45" height="45" alt="Energie"/>
+					</li>
+					<li id="statisticGameButton"><img src="static/img/statistic.png" width="45" height="45" alt="Energie"/></li>
+					<li id="usersButton"><img src="static/img/users.png" width="45" height="45" alt="User"/></li>
+					<li id="chatButton"><img src="static/img/chat.png" width="45" height="45" alt="Chat"/></li>
+					<li id="logoutGameButton"><img src="static/img/logout.png" width="45" height="45" alt="Logout"/></li>
+				</ul>
+			</div>
+		</script>
+		<script id="usernameTMP"  type="text/x-handlebars-template">
+			<em class="pre-text">{{preText}}</em><span class="username-text">{{username}}</span>
+		</script>
+		<script id="userStatisticTMP"  type="text/x-handlebars-template">
+			<h3 class="font-size-menu">Das ist deine Statistik!</h3>
+			</br>
+			<table class="table">
+					<tr>
+						<td><span class="font-size">Gesamt-Highscore</span></td>
+						<td><span class="font-size color-blue">{{highscore}}</span></td>
+					</tr>
+					<tr>
+						<td><span class="font-size">Gesamt gelaufene Meter</span></td>
+						<td><span class="font-size color-blue">{{amountDistance}}</span></td>
+					</tr>
+			</table>
+		</script>
+		<script id="usernameListTMP" type="text/x-handlebars-template">
+			<h3 class="font-size-menu">Userliste</h3>
+			<br/>
+			<table class="table">
+				{{#each items}}
+					<tr>
+						<td><span class="font-size">{{username}}</span></td>
+					</tr>
+				{{/each}}
+			</table>
+		</script>
+	</head>
+	<body>
+		<!-- ausklappbares menu -->
+		<div id="menu">
+			<ul id="menuList">
+				<li>
+					<a href="#" id="highscoreButton" class="font-size-menu"> Highscores </a>
+				</li>
+
+				<li>
+					<a href="#" id="developerButton" class="font-size-menu"> Entwickler </a>
+				</li>
+			</ul>
+		</div>
+		<div id="preGameHeader">
+			<div id="gameName">
+				<!-- <img src="static/img/testLogo.png" alt="Logo" /> -->
+				<p id="headerText" class="font-size">
+					PacTrack
+				</p>
+			</div>
+			<div id="menuButton">
+				<img class="bottom" src="static/img/menuButton4.png" alt="MenuButton" />
+				<img class="top" src="static/img/menuButton.png" alt="MenuButton" />
+			</div>
+		</div>
+		<!-- austauschbares main div -->
+		<div id="main" class="displayTable">
+			<div class="centered">
+				<img id="logoImage" src="static/img/testLogo2.png" alt="Logo" />
+			</div>
+			<div id="loginArea">
+					<div id="usernameField">
+						<input id="username" class="form-control" type="text" required pattern="[a-zA-Z0-9]+" placeholder="username" value="Babo" />
+					</div>
+					<div id="loginErrorMessage" class="hide font-size">
+						Invalid username! Please try again.
+					</div>
+			</div>
+			<img id="loadLogin" class="hide load-login" width="40" height="40" src="static/img/loading40x40.gif" alt="Loading"/>
+			<div id="login-button-centered">
+					<button id="loginButton" type="button" class="btn btn-primary"><span class="font-size">login</span></button>
+			</div>
+		</div>
+		
+		<div id="developerContent" class="hide">
+			<div class="center-div-horizontal">
+				<img id="developerIMG" src="static/img/silvester_babos.jpg" alt="Die Babos" />
+			</div>
+			<br/>
+			<div class="center-div-horizontal font-size">
+				"Wir haben uns lange über server-seitige Programmierung 
+				mit Javascript und der Gestalt eines Responsive Designs für unsere Website Gedanken gemacht, 
+				um letztendlich doch alles anders zu machen!" 
+			</div>
+		</div>
+		
+		<div id="optionWindowMain" class="hide">
+			<div id="optionWindowContainer">
+			</div>
+		</div>
+		
+		<div id="optionMapWindowMain" class="hide">
+			<div id="optionMapWindowContainer">
+			</div>
+		</div>
+		
+		<div id="optionPowerWindowMain" class="hide">
+			<button id="closePowerButton" type="button" class="btn btn-primary"><span class="font-size">X</span></button>
+			<div id="optionPowerContainer">
+			</div>
+		</div>
+		
+		<div id="optionContentWindowMain" class="hide">
+			<button id="closeOptionButton" type="button" class="btn btn-primary"><span class="font-size">X</span></button>
+			<div id="optionContentContainer">				
+			</div>
+		</div>
+		
+		<div id="optionChatWindowMain" class="hide">
+			<button id="closeChatButton" type="button" class="btn btn-primary"><span class="font-size">X</span></button>
+			<div id="optionChatContainer">
+				<div class="top-div">
+				<h3 class="font-size-menu">Chat</h3>
+			</div>
+			<div id="scroll-div">
+				<ul id="chatList">
+				</ul>
+			</div>
+			<div class="center-div-horizontal, bottom-div">
+   				<input id="chatInput" type="text" class="form-control" placeholder="Ihre Nachricht">
+				<button id="chatSubmitButton" type="button" class="btn btn-primary">Senden</button>
+			</div>				
+			</div>
+		</div>
+		
+		<div id="lobbyMain" class="hide">			
+		</div>
+		
+		<div id="gameSettingsMain" class="hide">
+		</div>
+		
+		<div id="characterSelectMain" class="hide">
+		</div>
+		
+		<div id="gameSelectMain" class="hide">
+		</div>
+	
+		<!-- container zum Zeichnen der Spielmap -->
+		<div id="mainGame" class="hide">
+		</div>
+	
+	</body>
+</html>
