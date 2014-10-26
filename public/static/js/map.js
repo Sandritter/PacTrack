@@ -86,6 +86,7 @@ function initializeMap() {
 	};
 
 	// HIER WIRD DIE MAP INITIALISIERT
+	/*
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position) {
 			var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -110,9 +111,10 @@ function initializeMap() {
 		// Browser unterstüzt keine Geolocation
 		displayErrorMessage(pos, "Browser does not support Geotracking");
 	}
+	*/
 
 	// AJAX REQUEST für die gameTime
-	dropAjaxRequest(gameTimeRequestID, "?room=" + gameName, gameTimeCallback);
+	//dropAjaxRequest(gameTimeRequestID, "?room=" + gameName, gameTimeCallback);
 
 	swapHTML(optionWindowTmpID, optionMapWindowContainerID, optionMapWindowContext);
 
@@ -157,7 +159,7 @@ function initializeMap() {
 	//Wenn der Spieler das Spiel joint
 	if (startGameFlag == false) {
 		// wird ein AJAX REQUEST für die Liste von Usern in beigetretenen Spiel gesendet
-		dropAjaxRequest(userListRequestID, "?room=" + gameName, userListCallback);
+		//dropAjaxRequest(userListRequestID, "?room=" + gameName, userListCallback);
 		energyButton.classList.add("inactive");
 	} else {
 		addClickListener(energyButton, energyButtonListener);
@@ -166,7 +168,7 @@ function initializeMap() {
 	/*
 	 * Empfängt Positionsdaten aller Spieler die sich momentan auf der Karte befinden vom Server
 	 * EINZELND
-	 */
+	 *
 	socket.on(fetchPositionsSocketID, function(data) {
 		var user = data.user;
 		var pos = new google.maps.LatLng(user.position.latitude, user.position.longitude);
@@ -184,17 +186,18 @@ function initializeMap() {
 			addMarker(pos, user.iconPath, user.username, user.pacman); //Neuen Marker auf die Karte setzen
 		}
 	});
+	*/
 
 	/*
 	 * Wird angesprochen vom Server falls Spieler entfernt werden kann
-	 */
+	
 	socket.on(userLeftSocketID, function(username) {
 		kickMarker(username);
 	});
-
+	*/
 	/*
 	 * wenn das Spiel aus irgend einem Grund zuende sein sollte wird diese socket.on Methode aufgerufen
-	 */
+	 
 	socket.on(gameOverSocketID, function() {
 		clearInterval(countdownIntervalID);
 		clearInterval(updateIntervalID);
@@ -213,14 +216,14 @@ function initializeMap() {
 			username : username
 		});
 	});
-
+	*/
 	/*
 	 *  wenn socket.emit(leaveRoomOnGameOver) von uns emitted wurde, wird diese socket.on methode aufgerufen
 	 *  und enthält Daten wie den Highscore, die gelaufenen Meter und GameEndInfo ob man gewonnen hat oder nicht
 	 *  1 - HOST DOWN
 	 *  2 - TIME END
 	 *  3 - PACMAN CATCHED
-	 */
+	 
 	socket.on(gameEndInfoSocketID, function(data) {
 		if (data.state == 1) {
 			openGameEndInfoWindow("Der Host hat das Spiel beendet :(", data.gameEndInfo, data.highscore, data.amountDistance);
@@ -230,18 +233,18 @@ function initializeMap() {
 			openGameEndInfoWindow("Pacman wurde gefasst!", data.gameEndInfo, data.highscore, data.amountDistance);
 		}
 	});
-
+	*/
 	/*
 	 * socket-methode wird aufgerufen, sobald sich der Highscore eines Spielers während eines Spiels geändert hat
-	 */
 	socket.on(highscoreSocketID, function(data) {
 		var highscoreDisplay = document.getElementById(highScoreDisplayID).firstElementChild;
 		highscoreDisplay.innerHTML = data.highscore;
 	});
-
+	*/
+	
 	/*
 	 * Wird angesprochen wenn vom Server Chatnachrichten weitergeleitet werden
-	 */
+	 
 	socket.on(chatMessageSocketID, function(data) {
 		var chatList = document.getElementById(chatListID);
 
@@ -274,20 +277,21 @@ function initializeMap() {
 		var scrollDiv = document.getElementById("scroll-div");
 		scrollDiv.scrollTop = scrollDiv.scrollHeight;
 	});
+	*/
 
 	/*
 	 * Wird angesprochen wenn Pacman einen Punkt einsammelt um den Marker von der Karte zu entfernen
-	 */
 	socket.on(markerCatchedSocketID, function(ID) {
 		if (pointArray[ID] != undefined) {
 			pointArray[ID].setMap(null);
 		}
 		delete pointArray[ID];
 	});
+	*/
 
 	/*
 	 * socket-Methode springt an wenn sich ein Spieler außerhalb des Spielbereichs befindet
-	 */
+	 
 	socket.on(outOfAreaSocketID, function(data) {
 		var position = data.position;
 		var state = parseInt(data.state);
@@ -300,10 +304,10 @@ function initializeMap() {
 			infoWindow = undefined;
 		}
 	});
-
+	*/
+	
 	/**
 	 * socket-Methode die anspringt wenn der Server bescheid sagt, dass Spezialkräfte verfügbar sind
-	 */
 	socket.on(availablePowerSocketID, function(data) {
 		console.log("Neue available");
 		if (data.type1) {
@@ -319,13 +323,13 @@ function initializeMap() {
 			addClickListener(baboButton, baboListener);
 		}
 	});
+	*/
 
 	/**
 	 * socket-Methode springt an wenn Broadcast vom Server über Aktivierung einer Spezialpower empfangen wurde
 	 * 1 - INVISIBLE
 	 * 2 - DEFENSE
 	 * 3 - BABO
-	 */
 	socket.on(specialPowerSocketID, function(data) {
 		
 		var pacman;
@@ -349,17 +353,19 @@ function initializeMap() {
 			pacman.setIcon("static/img/icons/babo.png"); 				
 		}
 	});
+	*/
 
 	/**
 	 * socket-Methode, die angesprochen wird wenn die Progressbar aktualisiert werden soll
-	 */
+	 * 
 	socket.on(specialUpdateSocketID, function(data) {
 		updateProgress(data);
 	});
+	*/
 
 	/**
 	 * Wird beim Auslaufen einer Spezialkraft aufgerufen
-	 */
+	 *
 	socket.on(powerOffSocketID, function(data) {
 		
 		var pacman;
@@ -382,6 +388,7 @@ function initializeMap() {
 			pacman.setIcon("static/img/icons/pacman.png");
 		}
 	});
+	*/
 };
 
 /*
