@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	history.pushState({page : mainID}, pageTitle, "?page=1");
 	initDispatcher();
 
-	socket = io.connect('http://m1.mi.hs-rm.de');
+	// socket = io.connect('http://m1.mi.hs-rm.de');
 	ajaxList = [];
 
 	// Header Html-Elemente
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	 * socket.on Methode die vom Server nach einem login request eines Benutzers aufgerufen wird
 	 * ist der state 200, hat der Login geklappt
 	 * ansonsten wird dem Benutzer signalisert, dass er einen anderen Benutzernamen eingeben soll 
-	 */
+	 
 	socket.on(loginSocketID, function(data) {
 		var state = data.state;
 		// statistik informationen sind später in der data enthalten
@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			}, 4000);
 		}
 	});
+	*/
 
 	/**
  	* Listener der beim Klicken des Highscore-Menu-Punkts angsprochen wird
