@@ -403,10 +403,10 @@ function closePowerButtonListener(ev) {
  */
 function invisibleListener(ev) {
 	if (!ev.currentTarget.classList.contains("inactive")) {
-		socket.emit(specialPowerSocketID, {
+		/** socket.emit(specialPowerSocketID, {
 			type : 1,
 			username : username
-		});
+		});*/
 		allInactive();
 	}
 }
@@ -418,10 +418,10 @@ function invisibleListener(ev) {
 function defenseListener(ev) {
 	
 	if(!ev.currentTarget.classList.contains("inactive")){
-		socket.emit(specialPowerSocketID, {
+		/** socket.emit(specialPowerSocketID, {
 			type : 2,
 			username : username
-		});
+		}); */
 		allInactive();
 	}
 }
@@ -431,10 +431,10 @@ function defenseListener(ev) {
  * Stößt die Babofähigkeit an
  */
 function baboListener(ev) {
-	socket.emit(specialPowerSocketID, {
+	/** socket.emit(specialPowerSocketID, {
 		type : 3,
 		username : username
-	});
+	}); */
 	allInactive();
 }
 
@@ -539,13 +539,13 @@ function update() {
 	if (navigator.geolocation) {
 		navigator.geolocation.getCurrentPosition(function(position) {
 			var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-			socket.emit(updatePositionSocketID, {
+			/** socket.emit(updatePositionSocketID, {
 				position : {
 					latitude : pos.d,
 					longitude : pos.e
 				},
 				username : username
-			});
+			}); */
 		}, function() {
 			displayErrorMessage(pos, "Browser does not support Geotracking");
 		});
@@ -710,7 +710,7 @@ function energyButtonListener(ev) {
  * @param {Object} ev
  */
 function usersButtonListener(ev) {
-	dropAjaxRequest(userListRequestID, "?room=" + gameName, usernameListCallback);
+	//dropAjaxRequest(userListRequestID, "?room=" + gameName, usernameListCallback);
 }
 
 /**
@@ -752,11 +752,11 @@ function openGameMenuListener(ev) {
  */
 function sendChatMessageListener(ev) {
 	var message = document.getElementById(chatInputID).value;
-	socket.emit(chatMessageSocketID, {
+	/** socket.emit(chatMessageSocketID, {
 		username : username,
 		message : message,
 		room : gameName
-	});
+	});*/
 	var input = document.getElementById("chatInput");
 	input.innerHTML = "";
 }
