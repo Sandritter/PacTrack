@@ -99,12 +99,14 @@ function swapHTML(templateID, containerID, context) {
  * @param {Object} callback - Funktion die bei der Antwort angesprochen werden soll
  */
 function dropAjaxRequest(url, query, callback) {
-	var xhr = new XMLHttpRequest();
+	/**
+	 * var xhr = new XMLHttpRequest();
 	xhr.onreadystatechange = function() {
 		callback(xhr);
 	};
 	xhr.open("get", url + query, true);
 	xhr.send(null);
+	*/
 }
 
 /**
