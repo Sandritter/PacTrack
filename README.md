@@ -7,4 +7,5 @@ Notice
 ======
 
 Das Frontend ist nicht vollständig zugänglich, da der Server im Moment offline ist.
+
 Please note that the frontend ist not fully accessible, because the server is currently offline.
