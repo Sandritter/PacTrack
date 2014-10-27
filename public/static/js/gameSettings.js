@@ -30,7 +30,8 @@ function initGameSettings() {
 	addClickListener(startGameSource, fetchGameSettings);
 
 	//Callbackmethode für die Rückantwort vom Server bei der Raumstellung
-	socket.on(createRoomSocketID, function(data) {
+	/**
+	 * socket.on(createRoomSocketID, function(data) {
 		if (data.state == 200) { //Wenn der Server okay zurück gibt
 			var context = {
 				mapID : mapID
@@ -65,6 +66,7 @@ function initGameSettings() {
 			console.log("beim Starten eines Spiels ist ein Fehler passiert. Googlen Sie nach Benjamin Christiani oder Benedikt Süßmann um nähere Kontaktdaten zu erhalten.");
 		}
 	});
+	*/
 };
 
 /*
@@ -97,9 +99,11 @@ function fetchGameSettings(ev) {
 	};
 
 	//Spieleinstellungen werden an den Server versendet
+	/**
 	socket.emit(createRoomSocketID, { 
 		gameSettings : gameSettings
 	});
+	*/
 
 }
 
