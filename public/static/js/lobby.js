@@ -49,7 +49,7 @@ function initLobby() {
  */
 function statisticListener(ev) {
 	// hole Data daten vom Server
-	dropAjaxRequest(statisticRequestID, "?username=" + username, statisticCallBack);
+	//dropAjaxRequest(statisticRequestID, "?username=" + username, statisticCallBack);
 }
 
 /**
@@ -88,7 +88,7 @@ function confirmLogout(ev) {
 	removeMenuElements();
 
 	// signalisiere dem Server den Logout des Users
-	socket.emit(logoutSocketID);
+	//socket.emit(logoutSocketID);
 }
 
 /**
@@ -177,6 +177,6 @@ function newGameListener(ev) {
  */
 function joinGameListener(ev) {
 	startGameFlag = false;
-	dropAjaxRequest(iconListRequestID, "?username=" + username, iconListCallback);
+	//dropAjaxRequest(iconListRequestID, "?username=" + username, iconListCallback);
 }
 
