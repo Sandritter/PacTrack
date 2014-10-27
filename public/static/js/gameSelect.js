@@ -17,7 +17,8 @@ function initGameSelection() {
 	};
 
 	//Callbackmethode für das Betreten eines Spiels
-	socket.on(enterRoomSocketID, function(data) {
+	/**
+	 * socket.on(enterRoomSocketID, function(data) {
 		if (data.state = 200) { //Falls Server okay gibt
 			swapAndHide(gameMapTmpID, mainGameID, gameSelectMainID, context);
 			preGameHeader.classList.add("hide");
@@ -27,7 +28,8 @@ function initGameSelection() {
 		} else { //Falls Server kein Okay gibt
 			dropAjaxRequest(gameSelectListID, "", refreshGameListCallback); //Ajax Request für aktuelle Spielliste absetzen
 		}
-	});
+	}); 
+	*/
 }
 
 /*
@@ -56,10 +58,12 @@ function openGameListener(ev) {
 	gameName = ev.currentTarget.lastElementChild.firstElementChild.firstElementChild.innerHTML;
 
 	//Übermittelt relevante Daten des Spielbeitritts an den Server
+	/**	
 	socket.emit(enterRoomSocketID, {
 		gameName : gameName,  //Spielname
 		iconPath : selectedCharacter, //Ausgewählter Spielcharacter
 		username : username //Benutzername
 	});
+	*/
 
 }
