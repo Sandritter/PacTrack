@@ -155,7 +155,7 @@ document.addEventListener("DOMContentLoaded", function() {
  	* @param {Object} ev
  	*/
 	function highscoreButtonListener(ev) {
-		dropAjaxRequest(highscoreRequestID, "", highscoreCallback);
+		//dropAjaxRequest(highscoreRequestID, "", highscoreCallback);
 	}
 
 	/**
@@ -191,6 +191,64 @@ document.addEventListener("DOMContentLoaded", function() {
 	 */
 	function loginListener(ev) {
 		username = document.getElementById("username").value;
+
+		loadLogin.classList.add("hide");
+
+		// newGameButtonID und joinGameButtonID sind in der lobby.js deklariert
+		var context = {
+			wrapperID : lobbyButtonWrapperID,
+			newGameID : newGameButtonID,
+			joinGameID : joinGameButtonID
+		};
+
+		swapAndHide(lobbyTmpID, lobbyMainID, mainID, context);
+	
+		var statisticMenuContext = {
+			menuText : "Statistik",
+		};
+		
+		appendMenu(menuListID, statisticButtonID, menuTmpID, statisticMenuContext);
+
+		// after the user is logged-in the menu is getting appended with a logout option
+		var newMenuContext = {
+			menuText : "Logout"
+		};
+		appendMenu(menuListID, logoutButtonID, menuTmpID, newMenuContext);
+
+		// reaching the lobby there needs to be a optionWindow for the user
+		// in case the user wants to get back to the login
+		var optionWindowContext = {
+			confirmID : confirmID,
+			yesButton : yesButtonID,
+			noButton : noButtonID,
+			text : "Möchtest du dich wirklich ausloggen?"
+		};
+
+		swapHTML(optionWindowTmpID, optionLogoutWindowContainerID, optionWindowContext);
+
+		// Ersetzen des Namen "PacTrack" durch den Benutzernamen
+		var usernameContext = {
+			preText : "Servus, ",
+			username : username
+		};
+		headerText.innerHTML = generateHTML(usernameTmpID, usernameContext);
+
+		//Erstellen der Map aus lobby.js - Muss explizit aufgerufen werden wegen Änderung der DOM-Struktur
+		initLobby();
+
+		//Listener fürs Logout
+		var logoutButton = document.getElementById(logoutButtonID);
+		addClickListener(logoutButton, logoutListener);
+
+		//Logout beim erweiterten Menü hinzufügen
+		var logoutButton = document.getElementById(logoutButtonID);
+		addClickListener(logoutButton, logoutListener);
+
+		history.pushState({
+			page : lobbyMainID
+		}, pageTitle, "?page=2");
+		
+		/**
 		if (regPattern.test(username)) {
 			socket.emit(loginSocketID, {
 				username : username
@@ -205,6 +263,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				loginErrorMessage.classList.remove("displayBlock");
 			}, 4000);
 		}
+		*/
 	};
 
 	/**
@@ -225,9 +284,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		menuContent.classList.toggle("openMenu");
 
 		// sage dem Server bescheid er solle den Benutzer doch bitte ausloggen
-		socket.emit(logoutSocketID, {
+		/**socket.emit(logoutSocketID, {
 			username : username
-		});
+		});*/
 	}
 
 	/**
